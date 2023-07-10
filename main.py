@@ -21,7 +21,7 @@ def peliculas_duracion(Pelicula: str):
 #def get_director( nombre_director ): Se ingresa el nombre de un director que se encuentre dentro de un dataset debiendo devolver el éxito del mismo medido a través del retorno. Además, deberá devolver el nombre de cada película con la fecha de lanzamiento, retorno individual, costo y ganancia de la misma, en formato lista.
 
 @app.get('/get_director/{nombre_director}')
-def get_director(nombre_director):
+def get_director(nombre_director: str):
     movies_clean['crew'] = movies_clean['crew'].apply(eval)
     peliculas_producidas = 0
     titulo = []
@@ -46,3 +46,18 @@ def get_director(nombre_director):
     df_movies = pd.DataFrame(lista_peliculas)
 
     return df_movies
+
+
+#def peliculas_idioma( Idioma: str ): Se ingresa un idioma (como están escritos en el dataset, no hay que traducirlos!). Debe devolver la cantidad de películas producidas en ese idioma.
+#                   Ejemplo de retorno: X cantidad de películas fueron estrenadas en idioma
+
+@app.get('/peliculas_idioma/{Idioma}')
+def peliculas_idioma(Idioma: str):
+    movies_clean['spoken_languages'] = movies_clean['spoken_languages'].apply(eval)
+    cantidad_peliculas = 0
+    for i in movies_clean['spoken_languages']:
+        for idioma in i:
+            if idioma == Idioma:
+                cantidad_peliculas += 1
+
+    return f"{cantidad_peliculas} cantidad de películas fueron estrenadas en {Idioma}"
