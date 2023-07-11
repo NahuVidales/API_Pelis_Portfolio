@@ -5,6 +5,9 @@ import pandas as pd
 app = FastAPI()
 
 movies_clean = pd.read_csv('movies_dataset_clean.csv')
+movies_clean['production_countries'] = movies_clean['production_countries'].apply(eval)
+movies_clean['crew'] = movies_clean['crew'].apply(eval)
+movies_clean['spoken_languages'] = movies_clean['spoken_languages'].apply(eval)
 
 @app.get('/')
 async def root():
@@ -22,7 +25,6 @@ def peliculas_duracion(Pelicula: str):
 
 @app.get('/get_director/{nombre_director}')
 def get_director(nombre_director: str):
-    movies_clean['crew'] = movies_clean['crew'].apply(eval)
     peliculas_producidas = 0
     titulo = []
     fecha_lanzamiento = []
@@ -53,7 +55,6 @@ def get_director(nombre_director: str):
 
 @app.get('/peliculas_idioma/{Idioma}')
 def peliculas_idioma(Idioma: str):
-    movies_clean['spoken_languages'] = movies_clean['spoken_languages'].apply(eval)
     cantidad_peliculas = 0
     for i in movies_clean['spoken_languages']:
         for idioma in i:
@@ -67,7 +68,6 @@ def peliculas_idioma(Idioma: str):
 #                    Ejemplo de retorno: Se produjeron X películas en el país X
 @app.get('/peliculas_pais/{Pais}')
 def peliculas_pais(Pais: str):
-    movies_clean['production_countries'] = movies_clean['production_countries'].apply(eval)
     cantidad_peliculas = 0
     for i in movies_clean['production_countries']:
         for pais in i:
