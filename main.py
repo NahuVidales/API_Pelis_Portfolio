@@ -61,3 +61,17 @@ def peliculas_idioma(Idioma: str):
                 cantidad_peliculas += 1
 
     return f"{cantidad_peliculas} cantidad de películas fueron estrenadas en {Idioma}"
+
+
+#def peliculas_pais( Pais: str ): Se ingresa un país (como están escritos en el dataset, no hay que traducirlos!), retornando la cantidad de peliculas producidas en el mismo.
+#                    Ejemplo de retorno: Se produjeron X películas en el país X
+@app.get('/peliculas_pais/{Pais}')
+def peliculas_pais(Pais: str):
+    movies_clean['production_countries'] = movies_clean['production_countries'].apply(eval)
+    cantidad_peliculas = 0
+    for i in movies_clean['production_countries']:
+        for pais in i:
+            if pais == Pais:
+                cantidad_peliculas += 1
+
+    return f"Se produjeron {cantidad_peliculas} películas en el país {Pais}"
