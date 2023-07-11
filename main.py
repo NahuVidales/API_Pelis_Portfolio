@@ -10,6 +10,7 @@ movies_clean['crew'] = movies_clean['crew'].apply(eval)
 movies_clean['spoken_languages'] = movies_clean['spoken_languages'].apply(eval)
 movies_clean['belongs_to_collection'] = movies_clean['belongs_to_collection'].apply(eval)
 movies_clean['revenue'] = movies_clean['revenue'].astype(int)
+movies_clean['production_companies'] = movies_clean['production_companies'].apply(eval)
 
 @app.get('/')
 async def root():
@@ -97,3 +98,20 @@ def franquicia(Franquicia: str):
                 ganancia_total += movies_clean['revenue'][peliculaNro]
     ganancia_promedio = ganancia_total / cantidad_peliculas
     return f"La franquicia {Franquicia} posee {cantidad_peliculas} peliculas, una ganancia total de {ganancia_total} y una ganancia promedio de {ganancia_promedio}"
+
+
+#def productoras_exitosas( Productora: str ): Se ingresa la productora, entregandote el revunue total y la cantidad de peliculas que realizo.
+#                    Ejemplo de retorno: La productora X ha tenido un revenue de x
+
+@app.get('/productoras_exitosas/{Productora}')
+def productoras_exitosas(Productora: str):
+    peliculaNro = 0
+    cantidad_peliculas = 0
+    ganancia_total = 0
+    for i in movies_clean['production_companies']:
+        peliculaNro += 1
+        for productora in i:
+            if productora == Productora:
+                cantidad_peliculas += 1
+                ganancia_total += movies_clean['revenue'][peliculaNro]
+    return f"La productora {Productora} ha tenido un revenue de {ganancia_total} y ha realizado {cantidad_peliculas} peliculas"
