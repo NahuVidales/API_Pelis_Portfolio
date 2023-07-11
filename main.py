@@ -8,6 +8,8 @@ movies_clean = pd.read_csv('movies_dataset_clean.csv')
 movies_clean['production_countries'] = movies_clean['production_countries'].apply(eval)
 movies_clean['crew'] = movies_clean['crew'].apply(eval)
 movies_clean['spoken_languages'] = movies_clean['spoken_languages'].apply(eval)
+movies_clean['belongs_to_collection'] = movies_clean['belongs_to_collection'].apply(eval)
+movies_clean['revenue'] = movies_clean['revenue'].astype(int)
 
 @app.get('/')
 async def root():
@@ -75,3 +77,23 @@ def peliculas_pais(Pais: str):
                 cantidad_peliculas += 1
 
     return f"Se produjeron {cantidad_peliculas} películas en el país {Pais}"
+
+
+
+
+#def franquicia( Franquicia: str ): Se ingresa la franquicia, retornando la cantidad de peliculas, ganancia total y promedio
+#                    Ejemplo de retorno: La franquicia X posee X peliculas, una ganancia total de x y una ganancia promedio de xx
+@app.get('/franquicia/{Franquicia}')
+def franquicia(Franquicia: str):
+    peliculaNro = 0
+    cantidad_peliculas = 0
+    ganancia_total = 0
+    ganancia_promedio = 0
+    for i in movies_clean['belongs_to_collection']:
+        peliculaNro += 1
+        for franquicia in i:
+            if franquicia == Franquicia:
+                cantidad_peliculas += 1
+                ganancia_total += movies_clean['revenue'][peliculaNro]
+    ganancia_promedio = ganancia_total / cantidad_peliculas
+    return f"La franquicia {Franquicia} posee {cantidad_peliculas} peliculas, una ganancia total de {ganancia_total} y una ganancia promedio de {ganancia_promedio}"
