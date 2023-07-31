@@ -86,7 +86,7 @@ def peliculas_pais(Pais: str):
 #                    Ejemplo de retorno: La franquicia X posee X peliculas, una ganancia total de x y una ganancia promedio de xx
 @app.get('/franquicia/{Franquicia}')
 def franquicia(Franquicia: str):
-    peliculaNro = 0
+    peliculaNro = -1
     cantidad_peliculas = 0
     ganancia_total = 0
     ganancia_promedio = 0
@@ -105,7 +105,7 @@ def franquicia(Franquicia: str):
 
 @app.get('/productoras_exitosas/{Productora}')
 def productoras_exitosas(Productora: str):
-    peliculaNro = 0
+    peliculaNro = -1
     cantidad_peliculas = 0
     ganancia_total = 0
     for i in movies_clean['production_companies']:
