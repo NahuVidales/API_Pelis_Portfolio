@@ -101,7 +101,7 @@ def franquicia(Franquicia: str):
                 ganancia_total += movies_clean['revenue'][peliculaNro]
     ganancia_promedio = ganancia_total / cantidad_peliculas
     return f"La franquicia {Franquicia} posee {cantidad_peliculas} peliculas, una ganancia total de {ganancia_total} y una ganancia promedio de {ganancia_promedio}"
-
+  
 
 #def productoras_exitosas( Productora: str ): Se ingresa la productora, entregandote el revunue total y la cantidad de peliculas que realizo.
 #                    Ejemplo de retorno: La productora X ha tenido un revenue de x
