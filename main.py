@@ -30,7 +30,6 @@ def peliculas_duracion(Pelicula: str):
 
 @app.get('/get_director/{nombre_director}')
 def get_director(nombre_director: str):
-    nombre_director = nombre_director.lower()
     peliculas_producidas = 0
     titulo = []
     fecha_lanzamiento = []
@@ -41,7 +40,7 @@ def get_director(nombre_director: str):
 
     for i, lista_directores in enumerate(movies_clean['crew']):
         for director in lista_directores:
-            if director == nombre_director:
+            if director == nombre_director.lower():
                 peliculas_producidas += 1
                 retorno_total += movies_clean['return'].values[i]
                 titulo.append(movies_clean['title'].values[i])
@@ -61,11 +60,10 @@ def get_director(nombre_director: str):
 
 @app.get('/peliculas_idioma/{Idioma}')
 def peliculas_idioma(Idioma: str):
-    Idioma = Idioma.lower()
     cantidad_peliculas = 0
     for i in movies_clean['spoken_languages']:
         for idioma in i:
-            if idioma == Idioma:
+            if idioma == Idioma.lower():
                 cantidad_peliculas += 1
 
     return f"{cantidad_peliculas} cantidad de películas fueron estrenadas en {Idioma}"
@@ -75,11 +73,10 @@ def peliculas_idioma(Idioma: str):
 #                    Ejemplo de retorno: Se produjeron X películas en el país X
 @app.get('/peliculas_pais/{Pais}')
 def peliculas_pais(Pais: str):
-    Pais = Pais.lower()
     cantidad_peliculas = 0
     for i in movies_clean['production_countries']:
         for pais in i:
-            if pais == Pais:
+            if pais == Pais.lower():
                 cantidad_peliculas += 1
 
     return f"Se produjeron {cantidad_peliculas} películas en el país {Pais}"
@@ -91,7 +88,6 @@ def peliculas_pais(Pais: str):
 #                    Ejemplo de retorno: La franquicia X posee X peliculas, una ganancia total de x y una ganancia promedio de xx
 @app.get('/franquicia/{Franquicia}')
 def franquicia(Franquicia: str):
-    Franquicia = Franquicia.lower()
     peliculaNro = -1
     cantidad_peliculas = 0
     ganancia_total = 0
@@ -99,7 +95,7 @@ def franquicia(Franquicia: str):
     for i in movies_clean['belongs_to_collection']:
         peliculaNro += 1
         for franquicia in i:
-            if franquicia == Franquicia:
+            if franquicia == Franquicia.lower():
                 cantidad_peliculas += 1
                 ganancia_total += movies_clean['revenue'][peliculaNro]
     ganancia_promedio = ganancia_total / cantidad_peliculas
@@ -111,14 +107,13 @@ def franquicia(Franquicia: str):
 
 @app.get('/productoras_exitosas/{Productora}')
 def productoras_exitosas(Productora: str):
-    Productora = Productora.lower()
     peliculaNro = -1
     cantidad_peliculas = 0
     ganancia_total = 0
     for i in movies_clean['production_companies']:
         peliculaNro += 1
         for productora in i:
-            if productora == Productora:
+            if productora == Productora.lower():
                 cantidad_peliculas += 1
                 ganancia_total += movies_clean['revenue'][peliculaNro]
     return f"La productora {Productora} ha tenido un revenue de {ganancia_total} y ha realizado {cantidad_peliculas} peliculas"
