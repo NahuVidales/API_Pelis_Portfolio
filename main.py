@@ -52,7 +52,7 @@ def get_director(nombre_director: str):
     print(f"El director {nombre_director} produjo {peliculas_producidas} peliculas, con un retorno total de {retorno_total}")
     df_movies = pd.DataFrame(lista_peliculas)
 
-    return df_movies
+    return 'El director {} produjo {} peliculas, con un retorno total de {}'.format(nombre_director, peliculas_producidas, retorno_total), df_movies.to_dict('records')
 
 
 #def peliculas_idioma( Idioma: str ): Se ingresa un idioma (como están escritos en el dataset, no hay que traducirlos!). Debe devolver la cantidad de películas producidas en ese idioma.
